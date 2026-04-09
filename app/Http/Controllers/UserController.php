@@ -33,13 +33,29 @@ class UserController extends Controller
        $pricePerPanel = 1500; 
        $totalCost = $panelCount * $pricePerPanel;
 
-       $status = ($average > 300) ? "installation recommanded" : "weak consumption";
 
-       return view ('user.dashboard', compact(
+       $afterSolar = $average * 0.4;
+
+       $pricePerKwh = 1.5;
+       $savings = ($average - $afterSolar) * $pricePerKwh;
+
+       if ($average > 400) {
+        $advice = "Solar installation highly recommended";
+       }
+       elseif ($average > 200) {
+        $advice = "Installation recommanded";
+       }
+       else {
+         $advice = "Weak consumption";
+       }
+    return view ('user.dashboard', compact(
         'panelCount',
         'totalCost',
         'average',
-        'status'
+        'advice',
+        'afterSolar',
+        'pricePerKwh',
+        'savings'
        ));
 
 
