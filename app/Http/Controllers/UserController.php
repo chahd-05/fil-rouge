@@ -35,7 +35,7 @@ class UserController extends Controller
 
        $status = ($average > 300) ? "installation recommanded" : "weak consumption";
 
-       return view ('userdashboard', compact(
+       return view ('user.dashboard', compact(
         'panelCount',
         'totalCost',
         'average',
