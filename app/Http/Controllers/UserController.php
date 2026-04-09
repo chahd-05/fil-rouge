@@ -15,70 +15,34 @@ class UserController extends Controller
     }
 
     public function calculate(Request $request) {
-        $consumption = $request->consumption;
+       $m1 = $request->m1;
+       $m2 = $request->m2;
+       $m3 = $request->m3;
 
-        $panelPower = 400;
-        $sunHours = 5;
-        $dailyConsumption = $consumption / 30;
-        $neededpower = $dailyConsumption / $sunHours;
-        $panelCount = ceil(($neededpower * 1000) / $panelPower);
+       $average = ($m1 + $m2 + $m3) / 3;
 
-        $pricePerPanel =  1500;
-        $totalCost = $panelCount * $pricePerPanel;
+       $dailyConsumption = $average / 30;
 
-        return view ('user.dashboard', compact(
-            'panelCount',
-            'totalCost',
-            'consumption'
-        ));
+       $panelPower = 400;
+       $sunHours = 5;
+
+       $neededPower = $dailyConsumption / $sunHours;
+
+       $panelCount = ceil(($neededPower * 1000) / $panelPower);
+
+       $pricePerPanel = 1500; 
+       $totalCost = $panelCount * $pricePerPanel;
+
+       $status = ($average > 300) ? "installation recommanded" : "weak consumption";
+
+       return view ('userdashboard', compact(
+        'panelCount',
+        'totalCost',
+        'average',
+        'status'
+       ));
+
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }
