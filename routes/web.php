@@ -26,6 +26,10 @@ Route::get('/dashboard', function() {
     return redirect()->route('user.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::post('/user/calculate', [UserController::class, 'calculate'])
+    ->name('user.calculate')
+    ->middleware(['auth', 'role:user']);
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
