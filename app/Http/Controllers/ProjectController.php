@@ -13,7 +13,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $projects = Project::where('user_id', auth()->id())->get();
         return view ('projects.index', compact('projects'));
     }
 
@@ -41,7 +41,7 @@ class ProjectController extends Controller
             'consumption' => $request->consumption,
             'surface' => $request->surface,
             'budget' => $request->budget,
-            'user_id' => $request->user_id
+            'user_id' => auth()->id()
         ]);
 
         return redirect()->route('project.index');
