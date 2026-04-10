@@ -31,7 +31,8 @@ Route::post('/user/calculate', [UserController::class, 'calculate'])
     ->middleware(['auth', 'role:user']);
 
 Route::post('/user/report', [UserController::class, 'downloadPDF'])
-->name('user.report');
+->name('user.report')
+->middleware(['auth', 'role:user']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
