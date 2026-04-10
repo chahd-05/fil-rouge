@@ -74,3 +74,24 @@ new Chart(ctx, {
     }
 });
 </script>
+
+<canvas id="savingsChart"></canvas>
+
+<script>
+const ctx2 = document.getElementById('savingsChart');
+
+new Chart(ctx2, {
+    type: 'line',
+    data: {
+        labels: ['1 Year', '5 Years', '10 Years'],
+        datasets: [{
+            label: 'Savings (MAD)',
+            data: [
+                {{ $yearlySavings ?? 0 }},
+                {{ ($yearlySavings ?? 0) * 5 }},
+                {{ $savings10Years ?? 0 }}
+            ]
+        }]
+    }
+});
+</script>
