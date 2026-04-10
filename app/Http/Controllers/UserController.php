@@ -34,10 +34,13 @@ class UserController extends Controller
        $totalCost = $panelCount * $pricePerPanel;
 
 
-       $afterSolar = $average * 0.4;
+        $afterSolar = $average * 0.4;
 
-       $pricePerKwh = 1.5;
-       $savings = ($average - $afterSolar) * $pricePerKwh;
+        $pricePerKwh = $request->price_kwh;
+        $currentCost = $average * $pricePerKwh;
+        $afterSolarCost = $afterSolar * $pricePerKwh;
+
+        $savings = $currentCost - $afterSolarCost;
 
        if ($average > 400) {
         $advice = "Solar installation highly recommended";
@@ -48,6 +51,7 @@ class UserController extends Controller
        else {
          $advice = "Weak consumption";
        }
+
     return view ('user.dashboard', compact(
         'panelCount',
         'totalCost',
