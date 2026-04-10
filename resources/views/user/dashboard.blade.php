@@ -14,6 +14,14 @@
 
     <label> price per KWh (MAD):</label>
     <input type="number" name="price_Kwh" value="1.5" step="0.1">
+
+    <label>Region:</label>
+    <select name="region">
+    <option value="1.2">Strong sun (Oujda)</option>
+    <option value="1.0">Average</option>
+    <option value="0.8">Weak sunl</option>
+    </select>
+
     <button type="submit">Calculate</button>
 </form>
 
@@ -23,15 +31,16 @@
     <p>required panels: {{$panelCount}}</p>
     <p>Estimated cost: {{ $totalCost}} MAD</p>
 
-    <h3>Comparing</h3>
-    <p>Before solar: {{$average}} KWh</p>
-    <p>After solar: {{$afterSolar}} KWh</p>
-
     <h3>Savings</h3>
     <p>You save around: {{ $savings }} MAD / month</p>
 
     <h3>Advice</h3>
     <p>{{$advice}}</p>
+
+    <h3>comparing</h3>
+    <p>Current cost: {{ $currentCost }}</p>
+    <p>After solar: {{ $afterSolarCost}}</p>
+    <p>Saving: {{ $savings }} MAD/month</p>
 @endif
 
 
