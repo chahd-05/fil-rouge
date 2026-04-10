@@ -6,66 +6,68 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view ('user.dashboard');
+        return view('user.dashboard');
     }
 
-    public function calculate(Request $request) {
-       $m1 = $request->m1;
-       $m2 = $request->m2;
-       $m3 = $request->m3;
+    public function calculate(Request $request)
+    {
+        $m1 = (float) $request->m1;
+        $m2 = (float) $request->m2;
+        $m3 = (float) $request->m3;
 
-       $average = ($m1 + $m2 + $m3) / 3;
+        $pricePerKwh = (float) $request->price_kwh;
+        $regionFactor = (float) $request->region;
+        $budget = (float) $request->budget;
 
-       $dailyConsumption = $average / 30;
+        $average = ($m1 + $m2 + $m3) / 3;
 
-       $panelPower = 400;
-       $sunHours = 5;
+        $dailyConsumption = $average / 30;
 
-       $neededPower = $dailyConsumption / $sunHours;
+        $panelPower = 400;
+        $sunHours = 5;
 
-       $panelCount = ceil(($neededPower * 1000) / $panelPower);
+        $neededPower = ($dailyConsumption / $sunHours) * $regionFactor;
 
-       $pricePerPanel = 1500; 
-       $totalCost = $panelCount * $pricePerPanel;
+        $panelCount = ceil(($neededPower * 1000) / $panelPower);
 
+        $pricePerPanel = 1500;
+        $totalCost = $panelCount * $pricePerPanel;
 
         $afterSolar = $average * 0.4;
 
-        $pricePerKwh = $request->price_kwh;
         $currentCost = $average * $pricePerKwh;
         $afterSolarCost = $afterSolar * $pricePerKwh;
 
         $savings = $currentCost - $afterSolarCost;
 
-       if ($average > 400) {
-        $advice = "Solar installation highly recommended";
-       }
-       elseif ($average > 200) {
-        $advice = "Installation recommanded";
-       }
-       else {
-         $advice = "Weak consumption";
-       }
+        if ($average > 400) {
+            $advice = "Installation fortement recommandée 🔥";
+        } elseif ($average > 200) {
+            $advice = "Installation recommandée";
+        } else {
+            $advice = "Consommation faible";
+        }
 
-       $regionFactor = $request->region;
-       $neededPower = ($dailyConsumption / $sunHours) * $regionFactor;
+        if ($budget >= $totalCost) {
+            $budgetStatus = "Budget sufficient";
+        } else {
+            $budgetStatus = "Budget insufficient";
+        }
 
-    return view ('user.dashboard', compact(
-        'panelCount',
-        'totalCost',
-        'average',
-        'advice',
-        'afterSolar',
-        'pricePerKwh',
-        'savings'
-       ));
-
-
+        return view('user.dashboard', compact(
+            'm1', 'm2', 'm3',
+            'average',
+            'panelCount',
+            'totalCost',
+            'afterSolar',
+            'currentCost',
+            'afterSolarCost',
+            'savings',
+            'advice',
+            'budgetStatus',
+            'pricePerKwh'
+        ));
     }
-
 }
