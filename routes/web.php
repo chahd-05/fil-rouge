@@ -30,6 +30,9 @@ Route::post('/user/calculate', [UserController::class, 'calculate'])
     ->name('user.calculate')
     ->middleware(['auth', 'role:user']);
 
+Route::post('/user/report', [UserController::class, 'downloadPDF'])
+->name('user.report');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
