@@ -56,6 +56,9 @@ class UserController extends Controller
             $budgetStatus = "Budget insufficient";
         }
 
+        $yearlySavings = $savings * 12;
+        $savings10Years = $yearlySavings * 10;
+
         return view('user.dashboard', compact(
             'm1', 'm2', 'm3',
             'average',
@@ -67,7 +70,9 @@ class UserController extends Controller
             'savings',
             'advice',
             'budgetStatus',
-            'pricePerKwh'
+            'pricePerKwh',
+            'yearlySavings',
+            'savings10Years'
         ));
     }
 }
