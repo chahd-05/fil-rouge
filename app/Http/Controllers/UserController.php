@@ -52,6 +52,9 @@ class UserController extends Controller
          $advice = "Weak consumption";
        }
 
+       $regionFactor = $request->region;
+       $neededPower = ($dailyConsumption / $sunHours) * $regionFactor;
+
     return view ('user.dashboard', compact(
         'panelCount',
         'totalCost',
