@@ -12,6 +12,8 @@
     <label>Month 3 (kWh):</label>
     <input type="number" name="m3" required>
 
+    <label> price per KWh (MAD):</label>
+    <input type="number" name="price_Kwh" value="1.5" step="0.1">
     <button type="submit">Calculate</button>
 </form>
 
