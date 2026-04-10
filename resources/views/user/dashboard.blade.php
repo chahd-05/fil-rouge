@@ -52,6 +52,15 @@
     <h3>Budget</h3>
     <p>{{ $budgetStatus }}</p>
 
+    <form action="{{ route('user.report') }}" method="POST" style="margin-top: 12px;">
+        @csrf
+        <input type="hidden" name="m1" value="{{ $m1 }}">
+        <input type="hidden" name="m2" value="{{ $m2 }}">
+        <input type="hidden" name="m3" value="{{ $m3 }}">
+        <input type="hidden" name="price_kwh" value="{{ $pricePerKwh }}">
+        <button type="submit">Télécharger le rapport PDF</button>
+    </form>
+
 @endif
 
 <hr>
