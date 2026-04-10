@@ -1,60 +1,159 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Photovoltaic Installation Calculator
+# Description du projet
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Ce projet est une application web permettant de calculer, dimensionner et documenter une installation photovoltaïque complète.
+L’application couvre tous les éléments techniques d’une installation solaire, depuis les panneaux jusqu’au rapport final en PDF.
 
-## About Laravel
+Elle permet à l’utilisateur de :
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Saisir les données du projet
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Effectuer des calculs détaillés
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Générer un rapport technique PDF
 
-## Learning Laravel
+Stocker et consulter les résultats
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+# Objectifs du projet
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Automatiser le dimensionnement d’une installation photovoltaïque
 
-## Laravel Sponsors
+Centraliser tous les calculs techniques dans une seule application
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Générer un rapport professionnel prêt à l’usage
 
-### Premium Partners
+Mettre en pratique les concepts :
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+UML (Use Case & Class Diagram)
 
-## Contributing
+Architecture MVC
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Calculs techniques réels (énergie solaire)
 
-## Code of Conduct
+# Fonctionnalités principales
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Création et gestion des projets photovoltaïques
 
-## Security Vulnerabilities
+Calcul automatique de :
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Puissance totale
 
-## License
+Nombre de panneaux
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# fil-rouge
+Nombre de chaînes (strings)
+
+Choix de l’onduleur
+
+Protections DC et AC
+
+Section des câbles
+
+Génération d’un rapport PDF détaillé
+
+Sauvegarde du chemin du PDF dans la base de données
+
+Historique des rapports par projet
+
+# Composants pris en charge
+
+Panneaux photovoltaïques
+
+Onduleur
+
+Câbles DC et AC
+
+Disjoncteurs DC / AC
+
+Parafoudre
+
+Connecteurs (MC4, manchons)
+
+Structure de support (cornière, fer H, boulonnerie)
+
+# Architecture du projet
+
+Le projet suit une architecture claire basée sur:
+
+MVC (Model – View – Controller)
+
+Services pour la logique de calcul
+
+Base de données relationnelle (MySQL)
+
+UML pour la conception
+
+# Conception UML
+
+Le projet a été conçu à l’aide de :
+
+Diagramme de cas d’utilisation (Use Case)
+
+Diagramme de classes (Class Diagram)
+
+Ces diagrammes définissent :
+
+Les acteurs
+
+Les fonctionnalités
+
+Les relations entre les entités du système
+
+# Base de données (aperçu)
+
+Principales tables :
+
+projects
+
+installations
+
+panels
+
+inverters
+
+cables
+
+protections
+
+reports (stockage du chemin du PDF)
+
+Relations :
+
+Un projet possède une installation
+
+Une installation contient plusieurs composants
+
+Un projet peut avoir plusieurs rapports PDF
+
+# Technologies utilisées
+
+Backend : Laravel
+
+Frontend : Blade / HTML / CSS
+
+Base de données : MySQL
+
+PDF : Génération automatique
+
+Outils de conception : UML (draw.io)
+
+# Rapport PDF
+
+Le rapport généré contient :
+
+Informations générales du projet
+
+Données techniques saisies
+
+Résultats des calculs
+
+Liste complète du matériel
+
+Conclusion sur la validité de l’installation
+
+Seul le chemin du fichier PDF est enregistré dans la base de données.
+
+# Réalisé par
+
+Chahd Mazouz
+Étudiante en développement web & systèmes d’énergie solaire
+Projet académique et professionnel
