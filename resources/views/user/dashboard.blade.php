@@ -1,45 +1,170 @@
 <style>
-    :root {
-        --bg: #0b1f33;
-        --card: #0f273d;
-        --accent: #f59e0b;
-        --accent-2: #22c55e;
-        --muted: #9ca3af;
-        --text: #e5e7eb;
-        --panel: #122c46;
-        --border: #1f3b58;
-        --font: "Segoe UI", sans-serif;
+    body {
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(60% 60% at 20% 20%, rgba(245,158,11,0.08), transparent), #0b1f33;
+    color: #e5e7eb;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.wrap {
+    max-width: 1050px;
+    margin: auto;
+    padding: 20px 16px 36px;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sun {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #facc15, #f59e0b);
+    box-shadow: 0 0 14px rgba(245,158,11,0.5);
+}
+
+h1 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.logout-btn {
+    background: transparent;
+    color: #e5e7eb;
+    border: 1px solid #1f3b58;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    border-color: #f59e0b;
+    color: #f59e0b;
+}
+
+.card {
+    background: #0f273d;
+    border: 1px solid #1f3b58;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 14px;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #9ca3af;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #1f3b58;
+    background: #122c46;
+    color: #e5e7eb;
+}
+
+input:focus, select:focus {
+    border-color: #f59e0b;
+    outline: none;
+}
+
+button {
+    margin-top: 14px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(90deg, #f59e0b, #fbbf24);
+    color: #0b1f33;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.stat-box {
+    background: #122c46;
+    border: 1px solid #1f3b58;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.stat-box h3 {
+    margin: 0;
+    font-size: 13px;
+    color: #9ca3af;
+}
+
+.stat-box p {
+    margin-top: 6px;
+    font-weight: bold;
+}
+
+.charts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.chart-card {
+    background: #122c46;
+    border: 1px solid #1f3b58;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+@media (max-width: 960px) {
+    .layout {
+        grid-template-columns: 1fr;
     }
-    * { box-sizing: border-box; }
-    body { margin: 0; padding: 0; background: radial-gradient(60% 60% at 20% 20%, rgba(245,158,11,0.08), transparent), var(--bg); color: var(--text); font-family: var(--font); }
-    .wrap { max-width: 1050px; margin: 0 auto; padding: 20px 16px 36px; }
-    .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-    .title { display: flex; align-items: center; gap: 10px; }
-    .sun { width: 32px; height: 32px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #facc15, #f59e0b); box-shadow: 0 0 14px rgba(245,158,11,0.5); }
-    h1 { margin: 0; font-size: 22px; letter-spacing: 0.4px; }
-    .logout-btn { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 8px 12px; border-radius: 10px; cursor: pointer; transition: 0.2s ease; }
-    .logout-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; box-shadow: 0 10px 26px rgba(0,0,0,0.18); }
-    .stack { display: grid; gap: 14px; }
-    .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
-    form label { display: block; margin: 10px 0 6px; color: var(--muted); font-size: 13px; }
-    form input, form select { width: 100%; background: var(--panel); border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 10px; outline: none; }
-    form input:focus, form select:focus { border-color: var(--accent); }
-    button[type="submit"] { background: linear-gradient(90deg, #f59e0b, #fbbf24); color: #0b1f33; border: none; padding: 12px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; box-shadow: 0 8px 20px rgba(245,158,11,0.28); margin-top: 14px; }
-    .hr { height: 1px; background: var(--border); margin: 18px 0; }
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .stat-box { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
-    .stat-box h3 { margin: 0; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
-    .stat-box p { margin: 6px 0 0; font-size: 16px; font-weight: 700; }
-    .download { margin-top: 10px; }
-    .ghost { background: transparent; color: var(--text); border: 1px solid var(--border); box-shadow: none; }
-    .ghost:hover { border-color: var(--accent); color: var(--accent); }
-    .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .chart-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 10px; }
-    @media (max-width: 960px) {
-        .layout { grid-template-columns: 1fr; }
-        .charts { grid-template-columns: 1fr; }
+
+    .charts {
+        grid-template-columns: 1fr;
     }
+}
+.video-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(11, 31, 51, 0.75);
+    z-index: -1;
+}
 </style>
 
 <div class="wrap">
