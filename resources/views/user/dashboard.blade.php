@@ -168,167 +168,181 @@ button {
 </style>
 
 <div class="wrap">
-    <div class="top">
-        <div class="title">
-            <div class="sun"></div>
-            <div>
-                <div style="color:#facc15;font-size:12px;letter-spacing:1px;">SOLAR PV</div>
-                <h1>User Dashboard</h1>
-            </div>
-        </div>
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="logout-btn">Logout</button>
-        </form>
-    </div>
 
-    <div class="stack">
-        <div class="layout">
-            <div class="card">
-                <form action="{{ route('user.calculate') }}" method="POST">
-                    @csrf
+<div class="top">
+<div class="title">
+<div class="sun"></div>
+<div>
+<div style="color:#facc15;font-size:12px;">SOLAR PV</div>
+<h1>User Dashboard</h1>
+</div>
+</div>
 
-                    <label>Month 1 (kWh):</label>
-                    <input type="number" name="m1" required>
+<form method="POST" action="{{ route('logout') }}">
+@csrf
+<button type="submit" class="logout-btn">Logout</button>
+</form>
+</div>
 
-                    <label>Month 2 (kWh):</label>
-                    <input type="number" name="m2" required>
+<div class="stack">
 
-                    <label>Month 3 (kWh):</label>
-                    <input type="number" name="m3" required>
+<div class="layout">
 
-                    <label>Price per kWh (MAD):</label>
-                    <input type="number" name="price_kwh" value="1.5" step="0.1">
+<div class="card">
+<form action="{{ route('user.calculate') }}" method="POST">
+@csrf
 
-                    <label>Region:</label>
-                    <select name="region">
-                        <option value="1.2">Strong sun (Oujda)</option>
-                        <option value="1.0">Average</option>
-                        <option value="0.8">Weak sun</option>
-                    </select>
+<label>Month 1 (kWh):</label>
+<input type="number" name="m1" required>
 
-                    <label>Budget (MAD):</label>
-                    <input type="number" name="budget">
+<label>Month 2 (kWh):</label>
+<input type="number" name="m2" required>
 
-                    <button type="submit">Calculate</button>
-                </form>
-            </div>
+<label>Month 3 (kWh):</label>
+<input type="number" name="m3" required>
 
-            @if(isset($average))
-            <div class="card">
-                <div class="row">
-                    <div class="stat-box">
-                        <h3>Average (3 months)</h3>
-                        <p>{{ $average }} kWh</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>Required panels</h3>
-                        <p>{{ $panelCount }}</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>Total cost</h3>
-                        <p>{{ $totalCost }} MAD</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>Savings</h3>
-                        <p>{{ $savings }} MAD / month</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>Advice</h3>
-                        <p style="font-size:14px;">{{ $advice }}</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>Budget</h3>
-                        <p style="font-size:14px;">{{ $budgetStatus }}</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>Current cost</h3>
-                        <p>{{ $currentCost }} MAD</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>After solar</h3>
-                        <p>{{ $afterSolarCost }} MAD</p>
-                    </div>
-                </div>
+<label>Price per kWh (MAD):</label>
+<input type="number" name="price_kwh" value="1.5">
 
-                <div class="download">
-                    <form action="{{ route('user.report') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="m1" value="{{ $m1 }}">
-                        <input type="hidden" name="m2" value="{{ $m2 }}">
-                        <input type="hidden" name="m3" value="{{ $m3 }}">
-                        <input type="hidden" name="price_kwh" value="{{ $pricePerKwh }}">
-                        <button type="submit" class="ghost">Télécharger le rapport PDF</button>
-                    </form>
-                </div>
-            </div>
-            @endif
-        </div>
+<label>Region:</label>
+<select name="region">
+<option value="1.2">Strong sun (Oujda)</option>
+<option value="1.0">Average</option>
+<option value="0.8">Weak sun</option>
+</select>
 
-        <div class="card">
-            <div class="charts">
-                <div class="chart-card">
-                    <canvas id="consumptionChart"></canvas>
-                </div>
-                <div class="chart-card">
-                    <canvas id="savingsChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
+<label>Budget (MAD):</label>
+<input type="number" name="budget">
+
+<button type="submit">Calculate</button>
+
+</form>
+</div>
+
+@if(isset($average))
+<div class="card">
+
+<div class="row">
+
+<div class="stat-box">
+<h3>Average</h3>
+<p>{{ $average }} kWh</p>
+</div>
+
+<div class="stat-box">
+<h3>Panels</h3>
+<p>{{ $panelCount }}</p>
+</div>
+
+<div class="stat-box">
+<h3>Cost</h3>
+<p>{{ $totalCost }} MAD</p>
+</div>
+
+<div class="stat-box">
+<h3>Savings</h3>
+<p>{{ $savings }} MAD</p>
+</div>
+
+<div class="stat-box">
+<h3>Advice</h3>
+<p>{{ $advice }}</p>
+</div>
+
+<div class="stat-box">
+<h3>Budget</h3>
+<p>{{ $budgetStatus }}</p>
+</div>
+
+<div class="stat-box">
+<h3>Before</h3>
+<p>{{ $currentCost }} MAD</p>
+</div>
+
+<div class="stat-box">
+<h3>After</h3>
+<p>{{ $afterSolarCost }} MAD</p>
+</div>
+
+</div>
+
+<div style="margin-top:10px;">
+<form action="{{ route('user.report') }}" method="POST">
+@csrf
+<input type="hidden" name="m1" value="{{ $m1 }}">
+<input type="hidden" name="m2" value="{{ $m2 }}">
+<input type="hidden" name="m3" value="{{ $m3 }}">
+<input type="hidden" name="price_kwh" value="{{ $pricePerKwh }}">
+<button type="submit">Download PDF</button>
+</form>
+</div>
+
+</div>
+@endif
+
+</div>
+
+<div class="card">
+<div class="charts">
+
+<div class="chart-card">
+<canvas id="consumptionChart"></canvas>
+</div>
+
+<div class="chart-card">
+<canvas id="savingsChart"></canvas>
+</div>
+
+</div>
+</div>
+
+</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-const ctx = document.getElementById('consumptionChart');
-const barColor = ctx.getContext ? ctx.getContext('2d').createLinearGradient(0,0,0,200) : null;
-if (barColor) { barColor.addColorStop(0, '#f59e0b'); barColor.addColorStop(1, '#fbbf24'); }
 
-new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Month 1', 'Month 2', 'Month 3'],
-        datasets: [{
-            label: 'Consumption (kWh)',
-            data: [{{ $m1 ?? 0 }}, {{ $m2 ?? 0 }}, {{ $m3 ?? 0 }}],
-            backgroundColor: barColor || '#f59e0b',
-            borderRadius: 8
-        }]
-    },
-    options: {
-        scales: {
-            y: { ticks: { color: '#cbd5e1' }, grid: { color: '#1f3b58' } },
-            x: { ticks: { color: '#cbd5e1' }, grid: { display: false } }
-        },
-        plugins: { legend: { labels: { color: '#e5e7eb' } } }
-    }
+let ctx = document.getElementById('consumptionChart');
+
+let gradient = null;
+if(ctx.getContext){
+let g = ctx.getContext('2d');
+gradient = g.createLinearGradient(0,0,0,200);
+gradient.addColorStop(0,'#f59e0b');
+gradient.addColorStop(1,'#fbbf24');
+}
+
+new Chart(ctx,{
+type:'bar',
+data:{
+labels:['Month 1','Month 2','Month 3'],
+datasets:[{
+label:'Consumption',
+data:[{{ $m1 ?? 0 }},{{ $m2 ?? 0 }},{{ $m3 ?? 0 }}],
+backgroundColor:gradient || '#f59e0b'
+}]
+}
 });
 
-const ctx2 = document.getElementById('savingsChart');
-new Chart(ctx2, {
-    type: 'line',
-    data: {
-        labels: ['1 Year', '5 Years', '10 Years'],
-        datasets: [{
-            label: 'Savings (MAD)',
-            data: [
-                {{ $yearlySavings ?? 0 }},
-                {{ ($yearlySavings ?? 0) * 5 }},
-                {{ $savings10Years ?? 0 }}
-            ],
-            borderColor: '#22c55e',
-            backgroundColor: 'rgba(34,197,94,0.18)',
-            tension: 0.3,
-            fill: true
-        }]
-    },
-    options: {
-        scales: {
-            y: { ticks: { color: '#cbd5e1' }, grid: { color: '#1f3b58' } },
-            x: { ticks: { color: '#cbd5e1' }, grid: { display: false } }
-        },
-        plugins: { legend: { labels: { color: '#e5e7eb' } } }
-    }
+let ctx2 = document.getElementById('savingsChart');
+
+new Chart(ctx2,{
+type:'line',
+data:{
+labels:['1 Year','5 Years','10 Years'],
+datasets:[{
+label:'Savings',
+data:[
+{{ $yearlySavings ?? 0 }},
+{{ ($yearlySavings ?? 0)*5 }},
+{{ $savings10Years ?? 0 }}
+],
+borderColor:'#22c55e',
+backgroundColor:'rgba(34,197,94,0.2)',
+fill:true
+}]
+}
 });
+
 </script>
