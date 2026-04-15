@@ -43,112 +43,111 @@
 </style>
 
 <div class="wrap">
-    <div class="top">
-        <div class="title">
+<div class="top">
+<div class="title">
             <div class="sun"></div>
-            <div>
-                <div style="color:#facc15;font-size:12px;letter-spacing:1px;">SOLAR PV</div>
-                <h1>User Dashboard</h1>
-            </div>
-        </div>
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="logout-btn">Logout</button>
-        </form>
+    <div>
+        <div style="color:#facc15;font-size:12px;letter-spacing:1px;">SOLAR PV</div>
+        <h1>User Dashboard</h1>
+    </div>
+</div>
+<form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="logout-btn">Logout</button>
+</form>
     </div>
 
     <div class="stack">
-        <div class="layout">
-            <div class="card">
-                <form action="{{ route('user.calculate') }}" method="POST">
-                    @csrf
+    <div class="layout">
+    <div class="card">
+    <form action="{{ route('user.calculate') }}" method="POST">
+        @csrf
 
-                    <label>Month 1 (kWh):</label>
-                    <input type="number" name="m1" required>
+        <label>Month 1 (kWh):</label>
+        <input type="number" name="m1" required>
 
-                    <label>Month 2 (kWh):</label>
-                    <input type="number" name="m2" required>
+        <label>Month 2 (kWh):</label>
+        <input type="number" name="m2" required>
 
-                    <label>Month 3 (kWh):</label>
-                    <input type="number" name="m3" required>
+        <label>Month 3 (kWh):</label>
+        <input type="number" name="m3" required>
 
-                    <label>Price per kWh (MAD):</label>
-                    <input type="number" name="price_kwh" value="1.5" step="0.1">
+        <label>Price per kWh (MAD):</label>
+        <input type="number" name="price_kwh" value="1.5" step="0.1">
 
-                    <label>Region:</label>
-                    <select name="region">
-                        <option value="1.2">Strong sun (Oujda)</option>
-                        <option value="1.0">Average</option>
-                        <option value="0.8">Weak sun</option>
-                    </select>
+        <label>Region:</label>
+        <select name="region">
+            <option value="1.2">Strong sun (Oujda)</option>
+            <option value="1.0">Average</option>
+            <option value="0.8">Weak sun</option>
+        </select>
 
-                    <label>Budget (MAD):</label>
-                    <input type="number" name="budget">
+        <label>Budget (MAD):</label>
+        <input type="number" name="budget">
 
-                    <button type="submit">Calculate</button>
-                </form>
-            </div>
+        <button type="submit">Calculate</button>
+    </form>
+    </div>
+@if(isset($average))
+<div class="card">
+<div class="row">
+    <div class="stat-box">
+        <h3>Average (3 months)</h3>
+        <p>{{ $average }} kWh</p>
+    </div>
+    <div class="stat-box">
+        <h3>Required panels</h3>
+        <p>{{ $panelCount }}</p>
+    </div>
+    <div class="stat-box">
+        <h3>Total cost</h3>
+        <p>{{ $totalCost }} MAD</p>
+    </div>
+    <div class="stat-box">
+        <h3>Savings</h3>
+        <p>{{ $savings }} MAD / month</p>
+    </div>
+    <div class="stat-box">
+        <h3>Advice</h3>
+        <p style="font-size:14px;">{{ $advice }}</p>
+    </div>
+    <div class="stat-box">
+        <h3>Budget</h3>
+        <p style="font-size:14px;">{{ $budgetStatus }}</p>
+    </div>
+    <div class="stat-box">
+        <h3>Current cost</h3>
+        <p>{{ $currentCost }} MAD</p>
+    </div>
+    <div class="stat-box">
+        <h3>After solar</h3>
+        <p>{{ $afterSolarCost }} MAD</p>
+    </div>
+</div>
 
-            @if(isset($average))
-            <div class="card">
-                <div class="row">
-                    <div class="stat-box">
-                        <h3>Average (3 months)</h3>
-                        <p>{{ $average }} kWh</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>Required panels</h3>
-                        <p>{{ $panelCount }}</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>Total cost</h3>
-                        <p>{{ $totalCost }} MAD</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>Savings</h3>
-                        <p>{{ $savings }} MAD / month</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>Advice</h3>
-                        <p style="font-size:14px;">{{ $advice }}</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>Budget</h3>
-                        <p style="font-size:14px;">{{ $budgetStatus }}</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>Current cost</h3>
-                        <p>{{ $currentCost }} MAD</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>After solar</h3>
-                        <p>{{ $afterSolarCost }} MAD</p>
-                    </div>
-                </div>
+    <div class="download">
+        <form action="{{ route('user.report') }}" method="POST">
+        @csrf
+        <input type="hidden" name="m1" value="{{ $m1 }}">
+        <input type="hidden" name="m2" value="{{ $m2 }}">
+        <input type="hidden" name="m3" value="{{ $m3 }}">
+        <input type="hidden" name="price_kwh" value="{{ $pricePerKwh }}">
+        <button type="submit" class="ghost">Télécharger le rapport PDF</button>
+        </form>
+    </div>
+</div>
+@endif
+</div>
 
-                <div class="download">
-                    <form action="{{ route('user.report') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="m1" value="{{ $m1 }}">
-                        <input type="hidden" name="m2" value="{{ $m2 }}">
-                        <input type="hidden" name="m3" value="{{ $m3 }}">
-                        <input type="hidden" name="price_kwh" value="{{ $pricePerKwh }}">
-                        <button type="submit" class="ghost">Télécharger le rapport PDF</button>
-                    </form>
-                </div>
-            </div>
-            @endif
+<div class="card">
+    <div class="charts">
+        <div class="chart-card">
+        <canvas id="consumptionChart"></canvas>
         </div>
-
-        <div class="card">
-            <div class="charts">
-                <div class="chart-card">
-                    <canvas id="consumptionChart"></canvas>
-                </div>
-                <div class="chart-card">
-                    <canvas id="savingsChart"></canvas>
-                </div>
-            </div>
+        <div class="chart-card">
+            <canvas id="savingsChart"></canvas>
+        </div>
+    </div>
         </div>
     </div>
 </div>
