@@ -99,4 +99,33 @@ public function validateVoltageDrop($voltageDrop)
     ];
 }
 
+public function calculateBreaker($current)
+{
+    $breaker = $current * 1.25;
+
+    return round($breaker, 2);
+}
+
+public function calculateFuse($current)
+{
+    $fuse = $current * 1.2;
+
+    return round($fuse, 2);
+}
+
+public function validateProtection($current, $breaker, $fuse)
+{
+    if ($breaker < $current || $fuse < $current) {
+        return [
+            'status' => 'danger',
+            'message' => 'Protection insufficient'
+        ];
+    }
+
+    return [
+        'status' => 'safe',
+        'message' => 'Protection is adequate'
+    ];
+}
+
 }
