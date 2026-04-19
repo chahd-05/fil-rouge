@@ -28,5 +28,36 @@ class SolarCalculator
         ];
     }
 
-   
+    public function calculateInverter($pvPowerKW) {
+
+    $suggestedInverter = round($pvPowerKW * 0.9, 2);
+    return [
+        'suggested_inverter_kw' => $suggestedInverter
+    ];
+}
+
+public function validateInverter($pvPowerKW, $inverterPowerKW)
+{
+    $ratio = $inverterPowerKW / $pvPowerKW;
+
+    if ($ratio < 0.8) {
+        return [
+            'status' => 'under-sized',
+            'message' => 'Inverter too small'
+        ];
+    }
+
+    if ($ratio > 1.2) {
+        return [
+            'status' => 'over-sized',
+            'message' => 'Inverter too large'
+        ];
+    }
+
+    return [
+        'status' => 'valid',
+        'message' => 'Inverter is compatible'
+    ];
+}
+
 }
