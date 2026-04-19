@@ -60,4 +60,43 @@ public function validateInverter($pvPowerKW, $inverterPowerKW)
     ];
 }
 
+public function calculateCurrent($powerKW, $voltage)
+{
+    $powerW = $powerKW * 1000;
+    return round($powerW / $voltage, 2);
+}
+
+public function calculateCableSection($length, $current, $voltageDrop, $voltage)
+{
+    $rho = 0.017;
+
+    $deltaV = ($voltageDrop / 100) * $voltage;
+
+    $section = (2 * $rho * $length * $current) / $deltaV;
+
+    return round($section, 2);
+}
+
+public function validateVoltageDrop($voltageDrop)
+{
+    if ($voltageDrop > 5) {
+        return [
+            'status' => 'danger',
+            'message' => 'Voltage drop too high'
+        ];
+    }
+
+    if ($voltageDrop > 3) {
+        return [
+            'status' => 'warning',
+            'message' => 'Voltage drop acceptable'
+        ];
+    }
+
+    return [
+        'status' => 'good',
+        'message' => 'Voltage drop is good'
+    ];
+}
+
 }
