@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EngineerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,5 +43,7 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('/test-solar', [EngineerController::class, 'testCalculation']);
+Route::get('/report', [ReportController::class, 'generate']);
+Route::get('/engineer-EngineerDashboard', [EngineerController::class, 'dashboard']);
 
 require __DIR__.'/auth.php';
