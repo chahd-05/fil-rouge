@@ -1,3 +1,208 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        --solar-ink: #0f172a;
+        --solar-panel: #0b1f33;
+        --solar-panel-soft: #12314d;
+        --solar-surface: #f8fbff;
+        --solar-border: rgba(148, 163, 184, 0.2);
+        --solar-gold: #f59e0b;
+        --solar-gold-strong: #f97316;
+        --solar-sky: #38bdf8;
+        --solar-success: #16a34a;
+    }
+
+    body {
+        @apply bg-slate-950 text-slate-900;
+        background-image:
+            radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 28%),
+            radial-gradient(circle at top right, rgba(245, 158, 11, 0.22), transparent 30%),
+            linear-gradient(135deg, #08111f 0%, #0b1f33 48%, #102a43 100%);
+        background-attachment: fixed;
+    }
+}
+
+@layer components {
+    .auth-shell {
+        @apply relative min-h-screen overflow-hidden px-4 py-8 sm:px-6 lg:px-8;
+    }
+
+    .auth-shell::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+        background-size: 90px 90px;
+        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent 88%);
+        pointer-events: none;
+    }
+
+    .auth-wrapper {
+        @apply relative mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-6xl items-center justify-center;
+    }
+
+    .auth-grid {
+        @apply grid w-full overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 shadow-2xl backdrop-blur-xl lg:grid-cols-[1.08fr_0.92fr];
+    }
+
+    .auth-brand {
+        @apply relative hidden min-h-full flex-col justify-between overflow-hidden p-8 text-white lg:flex xl:p-12;
+        background:
+            radial-gradient(circle at 20% 20%, rgba(245, 158, 11, 0.22), transparent 24%),
+            radial-gradient(circle at 80% 18%, rgba(56, 189, 248, 0.18), transparent 25%),
+            linear-gradient(160deg, rgba(8, 17, 31, 0.92), rgba(11, 31, 51, 0.96));
+    }
+
+    .auth-brand::after {
+        content: "";
+        position: absolute;
+        inset: auto -10% -20% auto;
+        width: 320px;
+        height: 320px;
+        border-radius: 9999px;
+        background: radial-gradient(circle, rgba(245, 158, 11, 0.28), transparent 62%);
+        filter: blur(10px);
+    }
+
+    .auth-logo {
+        @apply inline-flex h-20 items-center gap-3 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 shadow-lg backdrop-blur;
+    }
+
+    .auth-logo-mark {
+        @apply h-12 w-12 shrink-0 rounded-2xl border border-amber-300/30 bg-slate-950/70 p-2 text-amber-300 shadow-lg shadow-amber-500/10;
+    }
+
+    .auth-logo-copy {
+        @apply flex flex-col;
+    }
+
+    .auth-logo-name {
+        @apply text-lg font-semibold tracking-[0.18em] text-white uppercase;
+    }
+
+    .auth-logo-tag {
+        @apply text-[0.65rem] uppercase tracking-[0.28em] text-sky-200/80;
+    }
+
+    .auth-kicker {
+        @apply text-xs font-semibold uppercase tracking-[0.35em] text-amber-300/90;
+    }
+
+    .auth-title {
+        @apply mt-4 max-w-md text-4xl font-semibold leading-tight text-white xl:text-5xl;
+    }
+
+    .auth-description {
+        @apply mt-4 max-w-lg text-sm leading-7 text-slate-200/85;
+    }
+
+    .auth-highlights {
+        @apply mt-10 grid gap-4 text-sm text-slate-100/90;
+    }
+
+    .auth-highlight {
+        @apply rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm;
+    }
+
+    .auth-panel {
+        @apply relative px-6 py-8 sm:px-8 lg:px-10 lg:py-10;
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 22%),
+            linear-gradient(135deg, rgba(14, 26, 42, 0.95), rgba(17, 50, 78, 0.96));
+    }
+
+    .auth-panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+        background-size: 56px 56px;
+        opacity: 0.7;
+        pointer-events: none;
+    }
+
+    .auth-panel::after {
+        content: "";
+        position: absolute;
+        inset: 1rem;
+        border-radius: 1.5rem;
+        border: 1px solid rgba(125, 211, 252, 0.12);
+        pointer-events: none;
+    }
+
+    .auth-panel-inner {
+        @apply relative z-10 mx-auto w-full max-w-md rounded-[1.75rem] border border-white/10 bg-slate-950/35 p-6 shadow-2xl backdrop-blur-sm sm:p-7;
+    }
+
+    .auth-panel-header {
+        @apply mb-8;
+    }
+
+    .auth-panel-kicker {
+        @apply text-xs font-semibold uppercase tracking-[0.3em] text-amber-300;
+    }
+
+    .auth-panel-title {
+        @apply mt-3 text-3xl font-semibold text-white;
+    }
+
+    .auth-panel-copy {
+        @apply mt-3 text-sm leading-6 text-slate-300;
+    }
+
+    .auth-form {
+        @apply space-y-5;
+    }
+
+    .auth-field {
+        @apply space-y-2;
+    }
+
+    .auth-label {
+        @apply text-sm font-semibold tracking-[0.02em] text-slate-200;
+    }
+
+    .auth-input {
+        @apply block w-full rounded-2xl border border-sky-200/10 bg-slate-950/55 px-4 py-3.5 text-sm text-white shadow-sm transition duration-200 placeholder:text-slate-400 focus:border-amber-400 focus:ring-4 focus:ring-amber-300/15;
+    }
+
+    .auth-input:hover {
+        @apply border-sky-200/20;
+    }
+
+    .auth-checkbox {
+        @apply rounded border-sky-100/20 bg-slate-950/40 text-amber-500 shadow-sm focus:ring-amber-400;
+    }
+
+    .auth-link {
+        @apply text-sm font-medium text-sky-300 transition hover:text-amber-300;
+    }
+
+    .auth-submit {
+        @apply inline-flex items-center justify-center rounded-2xl border border-transparent bg-slate-950 px-5 py-3 text-sm font-semibold tracking-[0.18em] text-white uppercase shadow-lg shadow-slate-900/20 transition duration-200 hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-amber-200 active:translate-y-0;
+        background-image: linear-gradient(135deg, #0f172a 0%, #12314d 58%, #f59e0b 165%);
+    }
+
+    .auth-status {
+        @apply rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-200;
+    }
+
+    .auth-error {
+        @apply text-sm text-rose-300;
+    }
+
+    .auth-muted-card {
+        @apply rounded-2xl border border-white/10 bg-white/5 p-4 text-sm leading-6 text-slate-300;
+    }
+
+    .auth-check-copy {
+        @apply ms-2 text-sm text-slate-300;
+    }
+}
