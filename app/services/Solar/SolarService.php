@@ -7,16 +7,32 @@ use App\Services\Solar\Standards\SolarStandards;
 use App\Services\Solar\Validators\SolarValidator;
 use App\Services\Solar\Structure\StructureCalculator;
 use App\Services\Solar\Structure\MassifCalculator;
+use App\Services\Solar\Finance\CostCalculator;
+use App\Services\Solar\Simulation\ProductionSimulator;
 
 class SolarService
 {
-   public function __construct(
-    private SolarPhysicsCalculator $calc,
-    private SolarStandards $std,
-    private SolarValidator $val,
-    private StructureCalculator $structure,
-    private MassifCalculator $massif
-) {}
+private CostCalculator $cost;
+
+private ProductionSimulator $simulator;
+
+public function __construct(
+    SolarPhysicsCalculator $calc,
+    SolarStandards $std,
+    SolarValidator $val,
+    StructureCalculator $structure,
+    MassifCalculator $massif,
+    CostCalculator $cost,
+    ProductionSimulator $simulator
+) {
+    $this->calc = $calc;
+    $this->std = $std;
+    $this->val = $val;
+    $this->structure = $structure;
+    $this->massif = $massif;
+    $this->cost = $cost;
+    $this->simulator = $simulator;
+}
 
     public function run(array $data)
     {
@@ -31,6 +47,11 @@ class SolarService
         $panels = ceil($required / ($panel / 1000));
 
         $realPv = ($panels * $panel) / 1000;
+        // PRODUCTION SIMULATION
+        $monthlyProduction = $this->simulator->monthlyProduction($realPv);
+
+        $yearlyProduction = $this->simulator->yearlyProduction($monthlyProduction);
+
         // STRUCTURE
         $structureData = $this->structure->calculateStructure($panels);
 
@@ -82,6 +103,31 @@ class SolarService
             $this->std->protectionStandards()
         );
 
+    // COSTS
+        $panelCost = $this->cost->calculatePanelCost($panels);
+        $inverterCost = $this->cost->calculateInverterCost($inverter);
+        $cableCost = $this->cost->calculateCableCost();
+        $structureCost = $this->cost->calculateStructureCost($panels);
+        $massifCost = $this->cost->calculateMassifCost($concrete);
+
+        $materialTotal = $this->cost->totalCost([
+        $panelCost,
+        $inverterCost,
+        $cableCost,
+        $structureCost,
+        $massifCost
+    ]);
+
+    $installation = $this->cost->calculateInstallationCost($materialTotal);
+
+    $total = $materialTotal + $installation;
+
+// SIMPLE production estimation
+    $annualProduction = $realPv * 365;
+
+// ROI
+    $roi = $this->cost->calculateROI($total, $annualProduction);
+
         // 5. Global
         $global = $this->val->global(
             $realPv,
@@ -120,6 +166,20 @@ class SolarService
             'massifs' => [
                 'count' => $massifData['massifs_count'],
                 'concrete_volume_m3' => $concrete
+            ],
+            'costs' => [
+                'panels' => $panelCost,
+                'inverter' => $inverterCost,
+                'cable' => $cableCost,
+                'structure' => $structureCost,
+                'massifs' => $massifCost,
+                'installation' => $installation,
+                'total' => $total,
+                'roi_years' => $roi
+            ],
+            'production' => [
+            'monthly_kwh' => $monthlyProduction,
+            'yearly_kwh' => $yearlyProduction
             ],
             'global' => $global
         ];
