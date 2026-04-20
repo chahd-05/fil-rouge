@@ -10,12 +10,22 @@
 
 <canvas id="productionChart" width="600" height="300"></canvas>
 
+
+<h2>Profit Analysis</h2>
+
+<canvas id="revenueChart" width="600" height="300"></canvas>
+<canvas id="profitChart" width="600" height="300"></canvas>
+
 <script>
+    
     const monthlyData = @json($data['production']['monthly_kwh']);
+    const yearlyProduction = {{ $yearlyProduction }};
+    const totalCost = {{ $totalCost }};
+    const pricePerKwh = 1.2;
 
-    const ctx = document.getElementById('productionChart').getContext('2d');
+    const productionCtx = document.getElementById('productionChart').getContext('2d');
 
-    new Chart(ctx, {
+    new Chart(productionCtx, {
         type: 'bar',
         data: {
             labels: [
@@ -29,20 +39,49 @@
         }
     });
 
-    new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: [
-            'Jan','Feb','Mar','Apr','May','Jun',
-            'Jul','Aug','Sep','Oct','Nov','Dec'
-        ],
-        datasets: [{
-            label: 'Production Trend',
-            data: monthlyData,
-            fill: false
-        }]
+    const years = 10;
+
+    let revenueData = [];
+    let cumulativeProfit = [];
+
+    let total = 0;
+
+    for (let i = 1; i <= years; i++) {
+        let yearlyRevenue = yearlyProduction * pricePerKwh;
+
+        total += yearlyRevenue;
+
+        revenueData.push(yearlyRevenue);
+        cumulativeProfit.push(total - totalCost);
     }
-});
+
+    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+
+    new Chart(revenueCtx, {
+        type: 'bar',
+        data: {
+            labels: Array.from({length: years}, (_, i) => 'Year ' + (i+1)),
+            datasets: [{
+                label: 'Annual Revenue (MAD)',
+                data: revenueData
+            }]
+        }
+    });
+
+    const profitCtx = document.getElementById('profitChart').getContext('2d');
+
+    new Chart(profitCtx, {
+        type: 'line',
+        data: {
+            labels: Array.from({length: years}, (_, i) => 'Year ' + (i+1)),
+            datasets: [{
+                label: 'Cumulative Profit (MAD)',
+                data: cumulativeProfit,
+                fill: false
+            }]
+        }
+    });
+
 </script>
 
 </body>
