@@ -16,13 +16,12 @@ class EngineerController extends Controller
             'losses' => 20
         ];
 
-        // 🔥 ONE LINE ONLY (clean architecture)
         $result = $solarService->run($data);
 
     return view('engineer.EngineerDashboard', [
         'data' => $result,
-    'totalCost' => $result['costs']['total'],
-    'yearlyProduction' => $result['production']['yearly_kwh']
+        'totalCost' => $result['costs']['total'],
+        'yearlyProduction' => $result['production']['yearly_kwh']
     ]);
     }
 }
