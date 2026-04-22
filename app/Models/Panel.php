@@ -8,9 +8,17 @@ class Panel extends Model
 {
     protected $fillable = [
         'project_id',
+        'model',
         'power',
         'quantity',
-        'efficiency'
+        'efficiency',
+        'voc',
+        'vmp',
+        'isc',
+        'imp',
+        'length_m',
+        'width_m',
+        'temperature_coefficient',
     ];
 
     public function project()
