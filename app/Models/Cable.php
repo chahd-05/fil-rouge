@@ -10,7 +10,10 @@ class Cable extends Model
         'project_id',
         'length',
         'section',
-        'material'
+        'material',
+        'voltage_type',
+        'ampacity',
+        'cost_per_meter',
     ];
 
     public function project()
