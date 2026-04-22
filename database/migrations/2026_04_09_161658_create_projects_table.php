@@ -12,14 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('projects', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('location')->nullable();
-            $table->float('consumption');
-            $table->float('surface')->nullable();
-            $table->float('budget')->nullable();
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
-            $table->timestamps();
+        $table->id();
+
+        $table->string('city');
+        $table->json('input_data');
+        $table->float('required_kw');
+        $table->float('real_kw');
+        $table->integer('panels');
+        $table->json('production');
+        $table->json('costs');
+        $table->float('roi_years');
+        $table->timestamps();
         });
     }
 
