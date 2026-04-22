@@ -2,80 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectIndexRequest;
 use App\Models\Project;
-use GuzzleHttp\Handler\Proxy;
-use Illuminate\Http\Request;
+use App\Services\Solar\ProjectCatalogService;
+use App\Services\Solar\SolarService;
+use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $projects = Project::where('user_id', auth()->id())->get();
-        return view ('projects.index', compact('projects'));
+    public function __construct(
+        private readonly ProjectCatalogService $catalog,
+        private readonly SolarService $solarService
+    ) {
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(ProjectIndexRequest $request): View
     {
-        return view ('projects.create');
-    }
+        $filters = $request->validated();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'consumption' => 'required',
+        return view('projects.history', [
+            'projects' => $this->catalog->paginate($filters),
+            'filters' => $filters,
+            'cities' => $this->catalog->availableCities(),
         ]);
+    }
 
-        Project::create([
-            'name' => $request->name,
-            'location' => $request->location,
-            'consumption' => $request->consumption,
-            'surface' => $request->surface,
-            'budget' => $request->budget,
-            'user_id' => auth()->id()
+    public function show(Project $project): View
+    {
+        return view('projects.show', [
+            'project' => $project,
+            'dashboardPayload' => $this->solarService->projectToDashboardPayload($project),
         ]);
-
-        return redirect()->route('project.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }
