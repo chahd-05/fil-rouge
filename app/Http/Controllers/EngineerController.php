@@ -2,26 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Solar\SolarService;
+use App\Http\Requests\EngineerCalculationRequest;
+use App\Models\Project;
+use App\Services\Solar\EngineerWorkspaceService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class EngineerController extends Controller
 {
-    public function dashboard(SolarService $solarService)
+    public function __construct(
+        private readonly EngineerWorkspaceService $workspace
+    ) {
+    }
+
+    public function index(Request $request): View
     {
-        $data = [
-            'consumption' => 10,
-            'irradiation' => 5.5,
-            'panel_power' => 450,
-            'efficiency' => 18,
-            'losses' => 20
-        ];
+        $project = $request->filled('project')
+            ? Project::findOrFail((int) $request->input('project'))
+            : null;
 
-        $result = $solarService->run($data);
+        return view('engineer.EngineerDashboard', $this->workspace->dashboardData(
+            $project,
+            $request->session()->getOldInput()
+        ));
+    }
 
-    return view('engineer.EngineerDashboard', [
-        'data' => $result,
-        'totalCost' => $result['costs']['total'],
-        'yearlyProduction' => $result['production']['yearly_kwh']
-    ]);
+    public function calculate(EngineerCalculationRequest $request): RedirectResponse
+    {
+        $project = $this->workspace->calculateAndStore($request->validated());
+
+        return redirect()->route('engineer.dashboard', ['project' => $project->id])
+            ->with('status', 'Project calculated and saved successfully.');
+    }
+
+    public function preview(EngineerCalculationRequest $request): JsonResponse
+    {
+        return response()->json($this->workspace->preview($request->validated()));
+    }
+
+    public function destroy(Project $project): RedirectResponse
+    {
+        $project->delete();
+
+        return redirect()->route('engineer.dashboard')
+            ->with('status', 'Project deleted successfully.');
     }
 }
