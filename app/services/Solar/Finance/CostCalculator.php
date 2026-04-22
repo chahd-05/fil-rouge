@@ -4,50 +4,71 @@ namespace App\Services\Solar\Finance;
 
 class CostCalculator
 {
-    public function calculatePanelCost($panels, $pricePerPanel = 1500)
+    public function calculatePanelCost(int $panels, float $panelPowerW): float
     {
-        return $panels * $pricePerPanel;
+        $pricePerWp = $panelPowerW >= 600 ? 4.6 : ($panelPowerW >= 540 ? 4.9 : 5.2);
+
+        return round($panels * $panelPowerW * $pricePerWp / 1000, 2);
     }
 
-    public function calculateInverterCost($powerKW)
+    public function calculateInverterCost(float $inverterPowerKw, int $inverterCount, string $type = 'String'): float
     {
-        // average 1000 MAD per kW
-        return $powerKW * 1000;
+        $multiplier = match (strtolower($type)) {
+            'industrial' => 1250,
+            'hybrid' => 1650,
+            default => 1350,
+        };
+
+        return round($inverterPowerKw * $multiplier * $inverterCount, 2);
     }
 
-    public function calculateCableCost($length = 20, $pricePerMeter = 20)
+    public function calculateCableCost(float $length, float $costPerMeter = 28, int $runs = 1): float
     {
-        return $length * $pricePerMeter;
+        return round($length * $costPerMeter * $runs, 2);
     }
 
-    public function calculateStructureCost($panels)
+    public function calculateStructureCost(float $realPvKw, string $mountingType, string $structureType): float
     {
-        // estimated structure cost per panel
-        return $panels * 300;
+        $mountingFactor = $mountingType === 'ground' ? 1550 : 980;
+        $trackingPremium = $structureType === 'tracking' ? 1.28 : 1;
+
+        return round($realPvKw * $mountingFactor * $trackingPremium, 2);
     }
 
-    public function calculateMassifCost($concreteVolume, $pricePerM3 = 800)
+    public function calculateMassifCost(float $concreteVolume, float $pricePerM3 = 950): float
     {
-        return $concreteVolume * $pricePerM3;
+        return round($concreteVolume * $pricePerM3, 2);
     }
 
-    public function calculateInstallationCost($totalMaterialCost)
+    public function calculateProtectionCost(array $ratings): float
     {
-        // 10% labor
-        return $totalMaterialCost * 0.1;
+        return round(
+            ($ratings['breaker'] * 7.5) +
+            ($ratings['fuse'] * 4.2) +
+            ($ratings['spd'] * 5.3) +
+            ($ratings['earthing'] * 2.8),
+            2
+        );
     }
 
-    public function totalCost($costs)
+    public function calculateInstallationCost(float $materialTotal, string $installationType): float
     {
-        return array_sum($costs);
+        $factor = $installationType === 'Industrial' ? 0.16 : 0.13;
+
+        return round($materialTotal * $factor, 2);
     }
 
-    public function calculateROI($totalCost, $annualProductionKWh, $pricePerKWh = 1.2)
+    public function totalCost(array $costs): float
     {
-        $annualRevenue = $annualProductionKWh * $pricePerKWh;
+        return round(array_sum($costs), 2);
+    }
 
-        if ($annualRevenue == 0) return 0;
+    public function calculateROI(float $totalCost, float $annualSavings): float
+    {
+        if ($annualSavings <= 0) {
+            return 0;
+        }
 
-        return round($totalCost / $annualRevenue, 1); // years
+        return round($totalCost / $annualSavings, 1);
     }
 }
