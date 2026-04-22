@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Battery;
-use App\Models\Inverter;
-use App\Models\Panel;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
@@ -15,32 +12,28 @@ class Project extends Model
         'consumption',
         'surface',
         'budget',
-        'user_id'
+        'user_id',
+        'city',
+        'input_hash',
+        'input_data',
+        'required_kw',
+        'real_kw',
+        'panels',
+        'production',
+        'costs',
+        'roi_years',
     ];
 
-    public function panels()
-    {
-        return $this->hasMany(Panel::class);
-    }
+    protected $casts = [
+        'input_data' => 'array',
+        'production' => 'array',
+        'costs' => 'array',
+    ];
 
-    public function inverter()
+    public function scopeSearch($query, ?string $search)
     {
-        return $this->hasOne(Inverter::class);
+        return $query->when($search, function ($builder, $value) {
+            $builder->where('city', 'like', '%' . $value . '%');
+        });
     }
-
-    public function battery()
-    {
-        return $this->hasOne(Battery::class);
-    }
-
-    public function cables()
-    {
-        return $this->hasMany(Cable::class);
-    }
-
-    public function protections()
-    {
-        return $this->hasMany(Protection::class);
-    }
-
 }
