@@ -24,6 +24,15 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
+        <div class="auth-field">
+            <x-input-label for="role" :value="__('Account Type')" />
+            <select id="role" name="role" class="auth-input">
+                <option value="user" @selected(old('role', 'user') === 'user')>User</option>
+                <option value="engineer" @selected(old('role') === 'engineer')>Engineer</option>
+            </select>
+            <x-input-error :messages="$errors->get('role')" class="mt-2" />
+        </div>
+
         <!-- Password -->
         <div class="auth-field">
             <x-input-label for="password" :value="__('Password')" />
