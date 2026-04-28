@@ -43,7 +43,7 @@ class UserController extends Controller
         $savings = $currentCost - $afterSolarCost;
 
         if ($average > 400) {
-            $advice = "Installation fortement recommandée 🔥";
+            $advice = "Installation fortement recommandée";
         } elseif ($average > 200) {
             $advice = "Installation recommandée";
         } else {
